@@ -220,13 +220,13 @@
                         <!-- 游戏覆盖层，包含play按钮 -->
                         <div id="gameOverlay" class="game-overlay">
                             <h2 class="game-title-text">{{GAME_NAME}}</h2>
-                            <img src="../images/{{GAME_LOGO_FILENAME}}" alt="{{GAME_NAME}}" class="game-logo">
+                            <img src="/images/{{GAME_LOGO_FILENAME}}" alt="{{GAME_NAME}}" class="game-logo">
                             <button id="playButton" class="play-button">
                                 Play Now
                             </button>
                         </div>
                         <!-- 游戏iframe将在这里加载 -->
-                        <iframe id="gameIframe" style="width:100%;height:100%;display:none;" scrolling="no" frameborder="0" allowfullscreen></iframe>
+                        <iframe id="gameIframe" src="{{GAME_IFRAME_SRC}}" style="width:100%;height:100%;display:none;" scrolling="no" frameborder="0" allowfullscreen></iframe>
                     </div>
                     
                     <!-- 游戏底部信息栏 -->
