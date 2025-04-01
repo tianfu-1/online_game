@@ -38,7 +38,7 @@
             overflow: hidden;
         }
         .game-content {
-            height: 400px;
+            height: 600px;
             background-color: #000;
             position: relative;
         }
@@ -82,17 +82,6 @@
         .star {
             color: #ffa500;
             font-size: 1.2rem;
-        }
-        .game-thumbnails {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .game-thumbnail {
-            width: 60px;
-            height: 60px;
-            border-radius: 5px;
-            overflow: hidden;
         }
         .play-button {
             background-color: #9ec459;
@@ -231,7 +220,7 @@
                         <!-- 游戏覆盖层，包含play按钮 -->
                         <div id="gameOverlay" class="game-overlay">
                             <h2 class="game-title-text">{{GAME_NAME}}</h2>
-                            <img src="/images/{{GAME_LOGO_FILENAME}}" alt="{{GAME_NAME}}" class="game-logo">
+                            <img src="../images/{{GAME_LOGO_FILENAME}}" alt="{{GAME_NAME}}" class="game-logo">
                             <button id="playButton" class="play-button">
                                 Play Now
                             </button>
@@ -251,17 +240,6 @@
                                 <div class="star">★</div>
                             </div>
                             <span class="rating-count">(123 votes)</span>
-                        </div>
-                        <div class="game-thumbnails">
-                            <div class="game-thumbnail">
-                                <img src="../images/{{GAME_LOGO_FILENAME}}" alt="Thumbnail 1" class="w-full h-full object-cover">
-                            </div>
-                            <div class="game-thumbnail">
-                                <img src="../images/game-1.jpg" alt="Thumbnail 2" class="w-full h-full object-cover">
-                            </div>
-                            <div class="game-thumbnail">
-                                <img src="../images/game-2.jpg" alt="Thumbnail 3" class="w-full h-full object-cover">
-                            </div>
                         </div>
                     </div>
                 </div>
