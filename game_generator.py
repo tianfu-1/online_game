@@ -37,7 +37,7 @@ def generate_related_games_html(current_game, all_games, num_games=30):
     for game in related_games:
         html += f"""
             <div class="related-game">
-                <a href="/games/{game['game_slug']}.html">
+                <a href="{game['game_slug']}.html">
                     <img src="../images/{game['game_logo_filename']}" alt="{game['game_name']}">
                     <div class="game-title">{game['game_name']}</div>
                 </a>
@@ -102,7 +102,7 @@ def update_index_page(games_data):
         # 创建游戏卡片HTML
         card_html = f"""
                 <div class="game-card col-span-1">
-                    <a href="/games/{game['game_slug']}.html">
+                    <a href="games/{game['game_slug']}.html">
                         <img src="images/{game['game_logo_filename']}" alt="{game['game_name']} Game" class="w-full aspect-square object-cover">
                     </a>
                 """
