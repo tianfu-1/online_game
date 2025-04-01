@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 定义渐变 -->
+    <defs>
+        <!-- 主背景渐变 -->
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0A2540;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#1E65F3;stop-opacity:1" />
+        </linearGradient>
+        
+        <!-- 光效渐变 -->
+        <radialGradient id="glowGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" style="stop-color:#4D9FFF;stop-opacity:0.6" />
+            <stop offset="100%" style="stop-color:#4D9FFF;stop-opacity:0" />
+        </radialGradient>
+        
+        <!-- 发光效果 -->
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+            <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="glow" />
+            <feMerge>
+                <feMergeNode in="glow" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- 背景圆 -->
+    <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" />
+    
+    <!-- 发光效果 -->
+    <circle cx="256" cy="256" r="220" fill="url(#glowGradient)" filter="url(#glow)" />
+
+    <!-- AI神经网络图案 -->
+    <g stroke="#4D9FFF" stroke-width="2" opacity="0.6">
+        <!-- 连接线 -->
+        <path d="M128 256 Q256 128 384 256" />
+        <path d="M128 256 Q256 384 384 256" />
+        <path d="M256 128 L256 384" />
+        
+        <!-- 节点 -->
+        <circle cx="128" cy="256" r="8" fill="#4D9FFF" />
+        <circle cx="256" cy="128" r="8" fill="#4D9FFF" />
+        <circle cx="384" cy="256" r="8" fill="#4D9FFF" />
+        <circle cx="256" cy="384" r="8" fill="#4D9FFF" />
+        <circle cx="256" cy="256" r="12" fill="#FFFFFF" />
+    </g>
+
+    <!-- EA字母（现代简约风格）-->
+    <g fill="#FFFFFF" filter="url(#glow)">
+        <!-- E -->
+        <path d="M160 176 h96 v24 h-72 v48 h60 v24 h-60 v48 h72 v24 h-96 z" />
+        <!-- A -->
+        <path d="M288 176 l48 160 h-28 l-12 -40 h-48 l-12 40 h-28 l48 -160 z M256 272 h32 l-16 -53 z" />
+    </g>
+
+    <!-- 装饰性粒子 -->
+    <g fill="#4D9FFF" opacity="0.4">
+        <circle cx="180" cy="150" r="3" />
+        <circle cx="350" cy="180" r="2" />
+        <circle cx="160" cy="350" r="2" />
+        <circle cx="330" cy="330" r="3" />
+    </g>
+</svg> 
