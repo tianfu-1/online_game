@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Survivors - Action Survival Game | Expert's AI Review</title>
+    <meta name="description" content="Play Monster Survivors online - An intense action survival game where you fight endless waves of monsters. Experience thrilling gameplay and upgrade your character!">
+    <link rel="canonical" href="https://expertsaireview.com/games/monster-survivors" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0e3b73;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .top-nav {
+            background-color: #ffce00;
+            position: fixed;
+            top: -80px; /* 初始状态隐藏导航栏 */
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: top 0.3s ease-in-out;
+        }
+        .nav-item {
+            padding: 12px 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid rgba(0,0,0,0.1);
+        }
+        .nav-item img {
+            height: 24px;
+            margin-right: 6px;
+        }
+        .game-container {
+            background-color: #1a4b8a;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .play-button {
+            background-color: #9ec459;
+            color: white;
+            font-weight: bold;
+            width: 200px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(158, 196, 89, 0.5);
+            cursor: pointer;
+            border: none;
+            margin: 15px auto;
+            font-size: 24px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            position: relative;
+            padding-right: 15px;
+        }
+        .play-button::after {
+            content: "►";
+            font-size: 16px;
+            margin-left: 10px;
+            position: relative;
+            top: 1px;
+        }
+        .play-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(158, 196, 89, 0.6);
+        }
+        .game-info {
+            background-color: white;
+            border-radius: 8px;
+        }
+        .walkthrough-header {
+            background-color: #ffce00;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 8px 8px 0 0;
+        }
+        .related-game {
+            background-color: #4285f4;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+            position: relative;
+            border: 2px solid #ffd700;
+        }
+        .related-game:hover {
+            transform: translateY(-5px);
+        }
+        .related-game .game-title {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            padding: 5px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+        .related-game:hover .game-title {
+            opacity: 1;
+        }
+        .related-game img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+        }
+        .ad-space {
+            background-color: rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        .game-frame {
+            width: 800px;
+            max-width: 100%;
+            margin: 0 auto;
+            position: relative;
+            background-color: #000;
+            border-radius: 0;
+            overflow: hidden;
+        }
+        .game-toolbar {
+            background-color: #29abe2;
+            color: white;
+            padding: 6px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .game-toolbar-left {
+            display: flex;
+            align-items: center;
+        }
+        .game-toolbar-title {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        .game-toolbar-right {
+            display: flex;
+            align-items: center;
+        }
+        .toolbar-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            margin-left: 10px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-weight: bold;
+        }
+        .game-content {
+            height: 400px;
+            background-color: #000;
+            position: relative;
+        }
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, rgba(236, 72, 153, 0.7), rgba(168, 85, 247, 0.7));
+            z-index: 5;
+        }
+        .game-overlay.hidden {
+            display: none;
+        }
+        .game-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        .game-bottombar {
+            background-color: #f2f2f2;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+        }
+        .game-rating {
+            min-width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .rating-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+        .rating-label {
+            font-size: 12px;
+            color: #999;
+        }
+        .game-thumbnails {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .game-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .game-thumbnail:first-child {
+            border: 2px solid #29abe2;
+        }
+        .content-padding-top {
+            padding-top: 2px;
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: #85ca3a;
+            text-decoration: none;
+        }
+        .breadcrumb span {
+            margin: 0 8px;
+            color: #ccc;
+        }
+        .like-buttons {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+        .like-button {
+            background: none;
+            border: none;
+            color: #29abe2;
+            cursor: pointer;
+        }
+        .game-next {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .next-button {
+            width: 32px;
+            height: 32px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            color: white;
+            font-weight: bold;
+        }
+        .game-title-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .game-description {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            transition: all 0.3s ease;
+        }
+        .game-description.expanded {
+            -webkit-line-clamp: unset;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation (初始隐藏) -->
+    <header id="topNav" class="top-nav text-gray-800">
+        <div class="max-w-full px-1 mx-auto flex items-center overflow-x-auto">
+            <a href="/" class="p-2">
+                <img src="https://freesfx.co.uk/images/logo.png" alt="Free Games" class="h-10">
+            </a>
+            <div class="flex-1 flex">
+                <a href="#" class="nav-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1608/1608462.png" alt="Search icon">
+                </a>
+                <a href="#" class="nav-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/687/687529.png" alt="Controller icon">
+                    TAGS
+                </a>
+                <a href="#" class="nav-item bg-[#ff3333] text-white">
+                    <img src="https://cdn-icons-png.flaticon.com/512/9385/9385853.png" alt="New icon">
+                    NEW
+                </a>
+                <a href="#" class="nav-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2041/2041189.png" alt="Racing icon">
+                    RACING
+                </a>
+                <a href="#" class="nav-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3161/3161389.png" alt="Featured icon">
+                    FEATURED
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 content-padding-top">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-[10px] gap-x-[40px]">
+            <!-- Left Ad Space (Desktop) -->
+            <div class="hidden lg:block lg:col-span-2">
+                <div class="ad-space h-[600px] w-full">
+                    <p class="text-gray-400">Advertisement</p>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-8">
+                <!-- Game Container -->
+                <div class="game-frame">
+                    <!-- 游戏主要内容区域 -->
+                    <div class="game-content">
+                        <!-- 游戏覆盖层，包含play按钮 -->
+                        <div id="gameOverlay" class="game-overlay">
+                            <h2 class="game-title-text">Monster Survivors</h2>
+                            <img src="../images/monster_survivors.png" alt="Monster Survivors" class="game-logo">
+                            <button id="playButton" class="play-button">
+                                Play Now
+                            </button>
+                        </div>
+                        
+                        <!-- 游戏iframe -->
+                        <iframe id="gameIframe" src="" class="w-full h-full border-0" allowfullscreen></iframe>
+                    </div>
+                    
+                    <!-- 游戏底部评分和缩略图区域 -->
+                    <div class="game-bottombar">
+                        <div class="game-rating">
+                            <div class="rating-value">7.87</div>
+                            <div class="rating-label">/10</div>
+                        </div>
+                        <div class="like-buttons">
+                            <button class="like-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                </svg>
+                            </button>
+                            <button class="like-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="game-thumbnails">
+                            <div class="game-thumbnail">
+                                <img src="../images/monster_survivors.png" alt="Thumbnail 1" class="w-full h-full object-cover">
+                            </div>
+                            <div class="game-thumbnail">
+                                <img src="../images/game-1.jpg" alt="Thumbnail 2" class="w-full h-full object-cover">
+                            </div>
+                            <div class="game-thumbnail">
+                                <img src="../images/game-2.jpg" alt="Thumbnail 3" class="w-full h-full object-cover">
+                            </div>
+                            <div class="game-thumbnail">
+                                <img src="../images/game-3.jpg" alt="Thumbnail 4" class="w-full h-full object-cover">
+                            </div>
+                            <div class="game-thumbnail">
+                                <img src="../images/game-4.jpg" alt="Thumbnail 5" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="game-next">
+                            <button class="next-button">➔</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Description -->
+                <div class="game-info p-4 mt-[10px]">
+                    <p class="game-description" id="gameDescription">Play Monster Survivors For FREE! - Survive endless waves of monsters in this thrilling action-packed adventure! Face increasingly challenging monsters while collecting power-ups and upgrading your character's abilities. How long can you survive in this dangerous world full of monsters? <a href="javascript:void(0)" id="readMoreBtn" class="text-blue-300 ml-1">... More »</a></p>
+                </div>
+                
+                <!-- Ad Space (In-Page) -->
+                <div class="ad-space w-full h-24 my-[10px]">
+                    <p class="text-gray-400">Advertisement</p>
+                </div>
+                
+                <!-- Related Games -->
+                <div class="game-container mt-[10px]">
+                    <div class="walkthrough-header">
+                        <h2 class="font-bold">More Games</h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-[10px]">
+                            <div class="related-game">
+                                <a href="heroes-assemble.html">
+                                    <img src="../images/Heroes-Assemble.jpg" alt="Heroes Assemble">
+                                    <h3 class="game-title">Heroes Assemble</h3>
+                                </a>
+                            </div>
+                            <div class="related-game">
+                                <a href="crazy-shooter-of-math.html">
+                                    <img src="../images/Crazy-Shooter-of-Math.jpg" alt="Crazy Shooter of Math">
+                                    <h3 class="game-title">Crazy Shooter of Math</h3>
+                                </a>
+                            </div>
+                            <div class="related-game">
+                                <a href="love-shopping-run.html">
+                                    <img src="../images/Love-Shopping-Run.jpg" alt="Love Shopping Run">
+                                    <h3 class="game-title">Love Shopping Run</h3>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Ad Space -->
+            <div class="hidden lg:block lg:col-span-2">
+                <div class="ad-space h-[600px] w-full">
+                    <p class="text-gray-400">Advertisement</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-black text-white py-4 mt-6">
+        <div class="max-w-full px-4">
+            <div class="grid md:grid-cols-3 gap-4">
+                <div>
+                    <h3 class="text-xl font-bold mb-1">Expert's AI Review</h3>
+                    <p class="text-gray-400 text-sm">The best collection of HTML5 games offering various types of curated online gaming experiences.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-1">Game Categories</h3>
+                    <ul class="grid grid-cols-2 gap-1 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Action Games</a></li>
+                        <li><a href="#" class="hover:text-white">Adventure Games</a></li>
+                        <li><a href="#" class="hover:text-white">Puzzle Games</a></li>
+                        <li><a href="#" class="hover:text-white">Strategy Games</a></li>
+                        <li><a href="#" class="hover:text-white">Racing Games</a></li>
+                        <li><a href="#" class="hover:text-white">Arcade Games</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-1">About Us</h3>
+                    <ul class="space-y-1 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">About</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-2 pt-2 text-center text-sm">
+                <p>© 2024 Expert's AI Review. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const playButton = document.getElementById('playButton');
+            const gameOverlay = document.getElementById('gameOverlay');
+            const gameIframe = document.getElementById('gameIframe');
+            const topNav = document.getElementById('topNav');
+            
+            // 播放按钮点击事件
+            playButton.addEventListener('click', function() {
+                // 设置游戏iframe的src
+                gameIframe.src = "https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html";
+                // 隐藏覆盖层
+                gameOverlay.classList.add('hidden');
+            });
+            
+            // 滚动监听事件，控制导航栏显示
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // 向下滚动超过100px时显示导航栏
+                if (scrollTop > 100) {
+                    topNav.style.top = "0";
+                } else {
+                    topNav.style.top = "-80px";
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+
+            // Read more functionality
+            document.getElementById('readMoreBtn').addEventListener('click', function() {
+                const description = document.getElementById('gameDescription');
+                const btn = document.getElementById('readMoreBtn');
+                
+                if (description.classList.contains('expanded')) {
+                    description.classList.remove('expanded');
+                    btn.textContent = '... More »';
+                } else {
+                    description.classList.add('expanded');
+                    btn.textContent = '« Less';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
