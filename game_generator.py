@@ -16,6 +16,11 @@ TEMPLATE_PATH = BASE_DIR / 'game_template.html'
 CSV_PATH = BASE_DIR / 'games_data.csv'
 INDEX_PATH = BASE_DIR / 'index.html'
 
+# 是否是GitHub Pages环境
+IS_GITHUB_PAGES = os.getenv('GITHUB_PAGES', '').lower() == 'true'
+# 根据环境设置路径前缀
+PATH_PREFIX = '/online_game' if IS_GITHUB_PAGES else ''
+
 # 确保目录存在
 GAMES_DIR.mkdir(exist_ok=True)
 IMAGES_DIR.mkdir(exist_ok=True)
@@ -37,7 +42,7 @@ def generate_related_games_html(current_game, all_games, num_games=30):
     for game in related_games:
         html += f"""
             <div class="related-game">
-                <a href="/online_game/games/{game['game_slug']}.html">
+                <a href="{PATH_PREFIX}/games/{game['game_slug']}.html">
                     <img src="../images/{game['game_logo_filename']}" alt="{game['game_name']}">
                     <div class="game-title">{game['game_name']}</div>
                 </a>
@@ -52,6 +57,7 @@ def generate_game_page(game_data, template, all_games):
     html = html.replace('{{GAME_DESCRIPTION}}', game_data['game_description'])
     html = html.replace('{{GAME_LOGO_FILENAME}}', game_data['game_logo_filename'])
     html = html.replace('{{GAME_IFRAME_SRC}}', game_data['game_iframe_src'])
+    html = html.replace('{{PATH_PREFIX}}', PATH_PREFIX)
     
     # 生成并添加推荐游戏
     related_games_html = generate_related_games_html(game_data, all_games)
@@ -102,7 +108,7 @@ def update_index_page(games_data):
         # 创建游戏卡片HTML
         card_html = f"""
                 <div class="game-card col-span-1">
-                    <a href="/online_game/games/{game['game_slug']}.html">
+                    <a href="{PATH_PREFIX}/games/{game['game_slug']}.html">
                         <img src="images/{game['game_logo_filename']}" alt="{game['game_name']} Game" class="w-full aspect-square object-cover">
                     </a>
                 """
