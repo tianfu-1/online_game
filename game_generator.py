@@ -19,7 +19,7 @@ INDEX_PATH = BASE_DIR / 'index.html'
 # 是否是GitHub Pages环境
 IS_GITHUB_PAGES = os.getenv('GITHUB_PAGES', '').lower() == 'true'
 # 根据环境设置路径前缀
-PATH_PREFIX = '/online_game' if IS_GITHUB_PAGES else ''
+PATH_PREFIX = '/onlinegames' if IS_GITHUB_PAGES else ''
 
 # 确保目录存在
 GAMES_DIR.mkdir(exist_ok=True)
