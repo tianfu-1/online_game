@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景 -->
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0066CC;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#5AC8FA;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="metalGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#D1D1D6;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#F2F2F7;stop-opacity:1" />
+        </linearGradient>
+        <!-- 光泽效果 -->
+        <filter id="gloss" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+            <feSpecularLighting in="blur" surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#white" result="specOut">
+                <fePointLight x="250" y="250" z="200" />
+            </feSpecularLighting>
+            <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut2" />
+            <feComposite in="SourceGraphic" in2="specOut2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+    </defs>
+
+    <!-- 主圆形背景 -->
+    <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" />
+
+    <!-- E字母（电路板样式）-->
+    <g transform="translate(128,128)" filter="url(#gloss)">
+        <path d="M0 0 h160 v40 h-120 v80 h100 v40 h-100 v80 h120 v40 h-160 z" fill="url(#metalGradient)" />
+        <!-- 电路线条 -->
+        <path d="M20 20 h120 M20 100 h80 M20 180 h120" stroke="#FFFFFF" stroke-width="4" />
+        <circle cx="140" cy="20" r="6" fill="#5AC8FA" />
+        <circle cx="100" cy="100" r="6" fill="#5AC8FA" />
+        <circle cx="140" cy="180" r="6" fill="#5AC8FA" />
+    </g>
+
+    <!-- A字母（AI风格）-->
+    <g transform="translate(288,128)" filter="url(#gloss)">
+        <path d="M80 0 l80 256 h-40 l-20 -64 h-80 l-20 64 h-40 l80 -256 z" fill="url(#metalGradient)" />
+        <!-- 横线 -->
+        <path d="M40 160 h80" stroke="#FFFFFF" stroke-width="4" />
+        <!-- 神经网络节点 -->
+        <circle cx="40" cy="120" r="6" fill="#5AC8FA" />
+        <circle cx="80" cy="120" r="6" fill="#5AC8FA" />
+        <circle cx="120" cy="120" r="6" fill="#5AC8FA" />
+    </g>
+
+    <!-- 装饰性电路线 -->
+    <g stroke="#5AC8FA" stroke-width="2" opacity="0.5">
+        <path d="M50 256 h80" />
+        <path d="M382 256 h80" />
+        <path d="M256 50 v80" />
+        <path d="M256 382 v80" />
+    </g>
+</svg> 

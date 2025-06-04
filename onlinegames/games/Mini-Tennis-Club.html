@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Tennis Club | Free Online HTML5 Game</title>
+    <meta name="description" content="Play Mini Tennis Club for FREE! - Take part in an amazing tennis match and enjoy the swift and fluent game. Practice before joining a tournament, because playing is easy, but mastering all the moves is not so much Have fun with this entertaining 3D tennis game with this new Mini Tennis Club game, a casual game compete against other players and beat them all and you can unlock new characters.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.5;
+            color: #333;
+        }
+        .content-padding-top {
+            padding-top: 2px;
+        }
+        .breadcrumb {
+            display: flex;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .breadcrumb a {
+            color: #555;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            color: #333;
+            text-decoration: underline;
+        }
+        .game-frame {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .game-content {
+            height: 600px;
+            background-color: #000;
+            position: relative;
+        }
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .game-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        .game-bottombar {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            background-color: #111;
+            color: white;
+        }
+        .game-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .stars {
+            display: flex;
+            gap: 2px;
+        }
+        .star {
+            color: #ffa500;
+            font-size: 1.2rem;
+        }
+        .play-button {
+            background-color: #9ec459;
+            color: white;
+            font-weight: bold;
+            width: 200px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(158, 196, 89, 0.5);
+            cursor: pointer;
+            border: none;
+            margin: 15px auto;
+            font-size: 24px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            position: relative;
+            padding-right: 15px;
+        }
+        .play-button::after {
+            content: "►";
+            font-size: 16px;
+            margin-left: 10px;
+            position: relative;
+            top: 1px;
+        }
+        .play-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(158, 196, 89, 0.6);
+        }
+        .game-info {
+            background-color: white;
+            border-radius: 8px;
+        }
+        .game-description {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            transition: all 0.3s ease;
+        }
+        .game-description.expanded {
+            -webkit-line-clamp: unset;
+            display: block;
+        }
+        .related-game {
+            background-color: #4285f4;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+            position: relative;
+            border: 2px solid #ffd700;
+        }
+        .related-game:hover {
+            transform: translateY(-5px);
+        }
+        .related-game .game-title {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            padding: 5px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+        .related-game:hover .game-title {
+            opacity: 1;
+        }
+        .related-game img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+        }
+        .ad-space {
+            background-color: rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            border-radius: 4px;
+        }
+        .walkthrough-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .walkthrough-content {
+            padding: 15px;
+            background-color: white;
+        }
+        .game-container {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .game-title-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hidden H1 for SEO -->
+    <h1 class="hidden">Mini Tennis Club - Free Online Game</h1>
+
+    <main class="container mx-auto px-4 content-padding-top">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-[10px] gap-x-[40px]">
+            <!-- Left Ad Space (Desktop) -->
+            <div class="hidden lg:block lg:col-span-2">
+                <div class="ad-space h-[600px] w-full">
+                    <p class="text-gray-400">Advertisement</p>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-8">
+                <!-- Game Container -->
+                <div class="game-frame">
+                    <!-- 游戏主要内容区域 -->
+                    <div class="game-content">
+                        <!-- 游戏覆盖层，包含play按钮 -->
+                        <div id="gameOverlay" class="game-overlay">
+                            <h2 class="game-title-text">Mini Tennis Club</h2>
+                            <img src="/onlinegames/images/Mini-Tennis-Club.jpg" alt="Mini Tennis Club" class="game-logo">
+                            <button id="playButton" class="play-button">
+                                Play Now
+                            </button>
+                        </div>
+                        <!-- 游戏iframe将在这里加载 -->
+                        <iframe id="gameIframe" src="https://html5.gamemonetize.co/49eln5cwqtgvyhxuxvb8ksp8jkz33h81/" style="width:100%;height:100%;display:none;" scrolling="no" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    
+                    <!-- 游戏底部信息栏 -->
+                    <div class="game-bottombar">
+                        <div class="game-rating">
+                            <div class="stars">
+                                <div class="star">★</div>
+                                <div class="star">★</div>
+                                <div class="star">★</div>
+                                <div class="star">★</div>
+                                <div class="star">★</div>
+                            </div>
+                            <span class="rating-count">(123 votes)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Description -->
+                <div class="game-info p-4 mt-[10px]">
+                    <p class="game-description" id="gameDescription">Play Mini Tennis Club For FREE! - Take part in an amazing tennis match and enjoy the swift and fluent game. Practice before joining a tournament, because playing is easy, but mastering all the moves is not so much Have fun with this entertaining 3D tennis game with this new Mini Tennis Club game, a casual game compete against other players and beat them all and you can unlock new characters. <a href="javascript:void(0)" id="readMoreBtn" class="text-blue-300 ml-1">... More »</a></p>
+                </div>
+                
+                <!-- Ad Space (In-Page) -->
+                <div class="ad-space w-full h-24 my-[10px]">
+                    <p class="text-gray-400">Advertisement</p>
+                </div>
+                
+                <!-- Related Games -->
+                <div class="game-container mt-[10px]">
+                    <div class="walkthrough-header">
+                        <h2 class="font-bold">More Games</h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+                            
+            <div class="related-game">
+                <a href="/onlinegames/games/Skibidi-Toilet-Attack.html">
+                    <img src="/onlinegames/images/Skibidi-Toilet-Attack.jpg" alt="Skibidi Toilet Attack">
+                    <div class="game-title">Skibidi Toilet Attack</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Brawl-Stars-Warfire.html">
+                    <img src="/onlinegames/images/Brawl-Stars-Warfire.jpg" alt="Brawl Stars Warfire">
+                    <div class="game-title">Brawl Stars Warfire</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Stunt-Car-Extreme-Online.html">
+                    <img src="/onlinegames/images/Stunt-Car-Extreme-Online.jpg" alt="Stunt Car Extreme Online">
+                    <div class="game-title">Stunt Car Extreme Online</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Command-Strike-FPS-Offline.html">
+                    <img src="/onlinegames/images/Command-Strike-FPS-Offline.jpg" alt="Command Strike FPS Offline">
+                    <div class="game-title">Command Strike FPS Offline</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Mortal-Brothers-Survival-Friends.html">
+                    <img src="/onlinegames/images/Mortal-Brothers-Survival-Friends.jpg" alt="Mortal Brothers Survival Friends">
+                    <div class="game-title">Mortal Brothers Survival Friends</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Freddys-Return-Village-Escape.html">
+                    <img src="/onlinegames/images/Freddys-Return-Village-Escape.jpg" alt="Freddys Return Village Escape">
+                    <div class="game-title">Freddys Return Village Escape</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Jump-Will-Jump.html">
+                    <img src="/onlinegames/images/Jump-Will-Jump.jpg" alt="Jump Will Jump">
+                    <div class="game-title">Jump Will Jump</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Horror-City-Minecraft-Survive.html">
+                    <img src="/onlinegames/images/Horror-City-Minecraft-Survive.jpg" alt="Horror City Minecraft Survive">
+                    <div class="game-title">Horror City Minecraft Survive</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/CatRobot-Idle-TD-Battle-Cat.html">
+                    <img src="/onlinegames/images/CatRobot-Idle-TD-Battle-Cat.jpg" alt="CatRobot Idle TD Battle Cat">
+                    <div class="game-title">CatRobot Idle TD Battle Cat</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Squid-Game-Hunter-online.html">
+                    <img src="/onlinegames/images/Squid-Game-Hunter-online.jpg" alt="Squid Game Hunter online">
+                    <div class="game-title">Squid Game Hunter online</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Sift-Renegade-Brawl.html">
+                    <img src="/onlinegames/images/Sift-Renegade-Brawl.jpg" alt="Sift Renegade Brawl">
+                    <div class="game-title">Sift Renegade Brawl</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Poppy-Playtime-Chapter-3.html">
+                    <img src="/onlinegames/images/Poppy-Playtime-Chapter-3.jpg" alt="Poppy Playtime Chapter 3">
+                    <div class="game-title">Poppy Playtime Chapter 3</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Fall-Guyz.html">
+                    <img src="/onlinegames/images/Fall-Guyz.jpg" alt="Fall Guyz">
+                    <div class="game-title">Fall Guyz</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/FastLaners.html">
+                    <img src="/onlinegames/images/FastLaners.jpg" alt="FastLaners">
+                    <div class="game-title">FastLaners</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Slenderman-Lost-at-School.html">
+                    <img src="/onlinegames/images/Slenderman-Lost-at-School.jpg" alt="Slenderman Lost at School">
+                    <div class="game-title">Slenderman Lost at School</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Super-Friday-Squid-Challenge.html">
+                    <img src="/onlinegames/images/Super-Friday-Squid-Challenge.jpg" alt="Super Friday Squid Challenge">
+                    <div class="game-title">Super Friday Squid Challenge</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Roblox-Climb-Motorbike.html">
+                    <img src="/onlinegames/images/Roblox-Climb-Motorbike.jpg" alt="Roblox Climb Motorbike">
+                    <div class="game-title">Roblox Climb Motorbike</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/BowMaster-Tower-Attack.html">
+                    <img src="/onlinegames/images/BowMaster-Tower-Attack.jpg" alt="BowMaster Tower Attack">
+                    <div class="game-title">BowMaster Tower Attack</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Toca-Life-Adventure.html">
+                    <img src="/onlinegames/images/Toca-Life-Adventure.jpg" alt="Toca Life Adventure">
+                    <div class="game-title">Toca Life Adventure</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Among-vs-Garten-of-Banban.html">
+                    <img src="/onlinegames/images/Among-vs-Garten-of-Banban.jpg" alt="Among vs Garten of Banban">
+                    <div class="game-title">Among vs Garten of Banban</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Sprunki-SuperHero.html">
+                    <img src="/onlinegames/images/Sprunki-SuperHero.jpg" alt="Sprunki SuperHero">
+                    <div class="game-title">Sprunki SuperHero</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Garten-of-Banban-Escape.html">
+                    <img src="/onlinegames/images/Garten-of-Banban-Escape.jpg" alt="Garten of Banban Escape">
+                    <div class="game-title">Garten of Banban Escape</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Stickman-vs-Zombies-Minecraft.html">
+                    <img src="/onlinegames/images/Stickman-vs-Zombies-Minecraft.jpg" alt="Stickman vs Zombies Minecraft">
+                    <div class="game-title">Stickman vs Zombies Minecraft</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Squid-Game-Challenge-Escape.html">
+                    <img src="/onlinegames/images/Squid-Game-Challenge-Escape.jpg" alt="Squid Game Challenge Escape">
+                    <div class="game-title">Squid Game Challenge Escape</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Cannon-Shot-Online.html">
+                    <img src="/onlinegames/images/Cannon-Shot-Online.jpg" alt="Cannon Shot Online">
+                    <div class="game-title">Cannon Shot Online</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/The-Specimen-Zero.html">
+                    <img src="/onlinegames/images/The-Specimen-Zero.jpg" alt="The Specimen Zero">
+                    <div class="game-title">The Specimen Zero</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Noob-City-The-Gangster.html">
+                    <img src="/onlinegames/images/Noob-City-The-Gangster.jpg" alt="Noob City The Gangster">
+                    <div class="game-title">Noob City The Gangster</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Draw-to-Save-my-Hero.html">
+                    <img src="/onlinegames/images/Draw-to-Save-my-Hero.jpg" alt="Draw to Save my Hero">
+                    <div class="game-title">Draw to Save my Hero</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Red-Ball-Forever-2.html">
+                    <img src="/onlinegames/images/Red-Ball-Forever-2.jpg" alt="Red Ball Forever 2">
+                    <div class="game-title">Red Ball Forever 2</div>
+                </a>
+            </div>
+            <div class="related-game">
+                <a href="/onlinegames/games/Among-us-The-imposter.html">
+                    <img src="/onlinegames/images/Among-us-The-imposter.jpg" alt="Among us The imposter">
+                    <div class="game-title">Among us The imposter</div>
+                </a>
+            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Ad Space -->
+            <div class="hidden lg:block lg:col-span-2">
+                <div class="ad-space h-[600px] w-full">
+                    <p class="text-gray-400">Advertisement</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('playButton').addEventListener('click', function() {
+            const gameOverlay = document.getElementById('gameOverlay');
+            const gameIframe = document.getElementById('gameIframe');
+            
+            // Hide overlay
+            gameOverlay.style.display = 'none';
+            
+            // Show and load iframe
+            gameIframe.style.display = 'block';
+            gameIframe.src = "https://html5.gamemonetize.co/49eln5cwqtgvyhxuxvb8ksp8jkz33h81/";
+        });
+
+        // Read more functionality
+        document.getElementById('readMoreBtn').addEventListener('click', function() {
+            const description = document.getElementById('gameDescription');
+            const btn = document.getElementById('readMoreBtn');
+            
+            if (description.classList.contains('expanded')) {
+                description.classList.remove('expanded');
+                btn.textContent = '... More »';
+            } else {
+                description.classList.add('expanded');
+                btn.textContent = '« Less';
+            }
+        });
+    </script>
+</body>
+</html> 
