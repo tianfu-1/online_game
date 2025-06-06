@@ -49,7 +49,7 @@ def update_canonical_tags(base_url, directory):
 
 
 def main():
-    website_base_url = 'https://expertsaireview.com'
+    website_base_url = 'https://www.expertsaireview.com'
     games_directory = 'onlinegames/games'
     
     print("Starting canonical URL update process...")

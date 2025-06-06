@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://expertsaireview.com/sitemap.xml 
+Sitemap: https://www.expertsaireview.com/sitemap.xml 
